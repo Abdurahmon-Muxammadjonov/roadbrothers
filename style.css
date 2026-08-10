@@ -1,0 +1,315 @@
+
+  :root{
+    --asphalt: #0a0e14;
+    --asphalt-2: #10151d;
+    --panel: #161c26;
+    --line: #232b38;
+    --amber: #f5a623;
+    --amber-2: #ffc656;
+    --white: #f4f6f9;
+    --muted: #8b96a8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    background: var(--asphalt);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  body{
+    display:flex;
+    justify-content:center;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(245,166,35,0.10), transparent 60%),
+      var(--asphalt);
+  }
+
+  .frame{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---- highway line texture ---- */
+  .road-track{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+  }
+  .road-track::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    width:6px;
+    height:220%;
+    transform:translateX(-50%);
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(245,166,35,0.16) 0px,
+      rgba(245,166,35,0.16) 46px,
+      transparent 46px,
+      transparent 92px
+    );
+    animation: dash-move 3.4s linear infinite;
+  }
+  @keyframes dash-move{
+    from{ transform:translateX(-50%) translateY(-92px); }
+    to{ transform:translateX(-50%) translateY(0); }
+  }
+
+  .eyebrow-bar{
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:22px 24px 6px;
+  }
+  .eyebrow-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background: var(--panel);
+    border:1px solid var(--line);
+    padding:7px 16px;
+    border-radius:999px;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color: var(--amber-2);
+    font-weight:600;
+  }
+  .eyebrow-pill .dot{
+    width:7px;height:7px;border-radius:50%;
+    background: var(--amber);
+    box-shadow:0 0 10px var(--amber);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:0.5; transform:scale(0.8);}
+  }
+
+  .hero{
+    position:relative;
+    z-index:2;
+    padding: 22px 26px 8px;
+    text-align:center;
+  }
+  .hero h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    line-height:1.08;
+    letter-spacing:0.005em;
+    font-size:clamp(30px, 8vw, 40px);
+  }
+  .hero h1 .hl{
+    color: var(--amber);
+    text-shadow: 0 0 24px rgba(245,166,35,0.45);
+  }
+  .hero p.sub{
+    margin-top:14px;
+    color: var(--muted);
+    font-size:15px;
+    line-height:1.5;
+  }
+  .hero p.sub b{
+    color: var(--white);
+    font-weight:600;
+  }
+
+  /* ---- truck illustration ---- */
+  .truck-stage{
+    position:relative;
+    z-index:2;
+    margin-top:22px;
+    padding: 0 20px;
+  }
+  .truck-frame{
+    position:relative;
+    width:100%;
+    border-radius:20px;
+    overflow:hidden;
+    aspect-ratio: 4 / 5;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.55), 0 0 0 1px var(--line);
+    background: var(--panel);
+  }
+  .truck-frame img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position: center 30%;
+  }
+  .truck-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(180deg, rgba(10,14,20,0) 45%, rgba(10,14,20,0.85) 100%),
+                linear-gradient(0deg, rgba(245,166,35,0.12), transparent 30%);
+    pointer-events:none;
+  }
+  .truck-frame .frame-tag{
+    position:absolute;
+    left:16px;
+    bottom:14px;
+    z-index:3;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background: rgba(10,14,20,0.55);
+    backdrop-filter: blur(6px);
+    border:1px solid rgba(245,166,35,0.4);
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color: var(--amber-2);
+    font-weight:600;
+  }
+  .glow-strip{
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:-6%;
+    height:60px;
+    background: radial-gradient(ellipse at center, rgba(245,166,35,0.30), transparent 70%);
+    filter: blur(10px);
+    z-index:0;
+  }
+
+  .cta-zone{
+    position:relative;
+    z-index:2;
+    padding: 18px 24px 14px;
+    text-align:center;
+  }
+  .cta-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    background: linear-gradient(180deg, var(--amber-2), var(--amber));
+    color:#1a1204;
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:20px 18px;
+    border-radius:16px;
+    box-shadow: 0 10px 30px rgba(245,166,35,0.35), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: transform .15s ease, box-shadow .15s ease;
+    cursor:pointer;
+    border:none;
+  }
+  .cta-btn:active{
+    transform: scale(0.97);
+  }
+  .cta-btn.pulse{
+    animation: cta-pulse .6s ease;
+  }
+  @keyframes cta-pulse{
+    0%{ box-shadow: 0 10px 30px rgba(245,166,35,0.35), inset 0 1px 0 rgba(255,255,255,0.4), 0 0 0 0 rgba(245,166,35,0.6); }
+    100%{ box-shadow: 0 10px 30px rgba(245,166,35,0.35), inset 0 1px 0 rgba(255,255,255,0.4), 0 0 0 14px rgba(245,166,35,0); }
+  }
+  .cta-btn svg{ width:22px; height:22px; flex-shrink:0; }
+  .cta-hint{
+    margin-top:12px;
+    font-size:12.5px;
+    color:var(--muted);
+    letter-spacing:0.02em;
+  }
+
+  .trust-row{
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    padding: 8px 24px 34px;
+    flex-wrap:wrap;
+  }
+  .trust-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  .trust-item svg{ width:15px; height:15px; color: var(--amber); flex-shrink:0; }
+
+  .footer-line{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding: 0 24px 26px;
+    font-size:11px;
+    color:#4c5568;
+    letter-spacing:0.04em;
+  }
+
+  /* ---- scroll-in animatsiya (JS bilan .is-visible qo'shiladi) ---- */
+  .reveal{
+    opacity:0;
+    transform: translateY(18px);
+    transition: opacity .6s cubic-bezier(.16,.84,.44,1), transform .6s cubic-bezier(.16,.84,.44,1);
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---- responsive breakpointlar ---- */
+  @media (max-width:360px){
+    .hero h1{ font-size:26px; }
+    .eyebrow-pill{ font-size:10.5px; padding:6px 12px; letter-spacing:0.1em; }
+  }
+
+  @media (min-width:600px){
+    .frame{ max-width:560px; }
+    .hero{ padding:28px 32px 10px; }
+    .hero h1{ font-size:44px; }
+    .hero p.sub{ font-size:16px; }
+    .cta-btn{ font-size:20px; padding:22px 20px; }
+    .trust-item{ font-size:13.5px; }
+  }
+
+  @media (min-width:900px){
+    .frame{ max-width:640px; padding-top:8px; }
+    .truck-frame{ aspect-ratio: 16 / 9; }
+    .hero h1{ font-size:48px; }
+  }
+
+  @media (hover:hover){
+    .cta-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(245,166,35,0.45), inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .road-track::before,
+    .eyebrow-pill .dot,
+    .cta-btn.pulse{
+      animation: none;
+    }
+    .reveal{
+      opacity:1;
+      transform:none;
+      transition:none;
+    }
+  }
