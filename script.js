@@ -14,6 +14,29 @@ document.addEventListener('DOMContentLoaded', () => {
       truckVideo.style.display = 'none';
     }, { once: true });
 
+    // Videoni boshidan emas, o'rtasidan qisqa (~6s) segment sifatida
+    // ijro qilish — asl faylni qayta kodlashsiz "qisqaroq" ko'rinish
+    const CLIP_START_RATIO = 0.35; // umumiy uzunlikning ~1/3 qismidan
+    const CLIP_LENGTH = 6; // soniya
+
+    truckVideo.addEventListener('loadedmetadata', () => {
+      const dur = truckVideo.duration;
+      if (isFinite(dur) && dur > CLIP_LENGTH) {
+        const start = Math.min(dur * CLIP_START_RATIO, dur - CLIP_LENGTH);
+        truckVideo.dataset.clipStart = start;
+        truckVideo.dataset.clipEnd = start + CLIP_LENGTH;
+        truckVideo.currentTime = start;
+      }
+    });
+
+    truckVideo.addEventListener('timeupdate', () => {
+      const end = parseFloat(truckVideo.dataset.clipEnd);
+      const start = parseFloat(truckVideo.dataset.clipStart);
+      if (!isNaN(end) && truckVideo.currentTime >= end) {
+        truckVideo.currentTime = start;
+      }
+    });
+
     // Ba'zi brauzerlar (ayniqsa mobil) autoplay'ni bloklashi mumkin —
     // shu holatda foydalanuvchi bosganda video ishga tushadi.
     const tryPlay = () => truckVideo.play().catch(() => {});
