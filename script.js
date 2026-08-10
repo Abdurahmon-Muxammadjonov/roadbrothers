@@ -25,24 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Bo'limlarni ekranga kirganda ketma-ket (stagger) paydo bo'lish animatsiyasi
+  // Bo'limlar sahifa ochilishi bilan ketma-ket (stagger) paydo bo'ladi —
+  // scroll kutilmaydi, shuning uchun rasm va boshqa hammasi telefonda
+  // darhol ko'rinadi.
   const revealEls = Array.from(document.querySelectorAll('.reveal'));
-  if (revealEls.length) {
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const idx = revealEls.indexOf(entry.target);
-          entry.target.style.transitionDelay = `${idx * 90}ms`;
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.15 });
-
-      revealEls.forEach((el) => io.observe(el));
-    } else {
-      // IntersectionObserver qo'llab-quvvatlanmasa, hammasini darhol ko'rsatish
-      revealEls.forEach((el) => el.classList.add('is-visible'));
-    }
-  }
+  revealEls.forEach((el, idx) => {
+    el.style.transitionDelay = `${idx * 70}ms`;
+    requestAnimationFrame(() => el.classList.add('is-visible'));
+  });
 });
