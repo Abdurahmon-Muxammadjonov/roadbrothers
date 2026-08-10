@@ -5,14 +5,28 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // Rasm yuklanmasa, chiroyli fallback fon ko'rsatish
-  const truckImg = document.querySelector('.truck-frame img');
-  if (truckImg) {
-    truckImg.addEventListener('error', () => {
-      const frame = truckImg.closest('.truck-frame');
+  // Video yuklanmasa/ijro bo'lmasa, poster rasm (yoki fallback fon) qoladi
+  const truckVideo = document.querySelector('.truck-frame video');
+  if (truckVideo) {
+    truckVideo.addEventListener('error', () => {
+      const frame = truckVideo.closest('.truck-frame');
       if (frame) frame.style.background = 'linear-gradient(160deg, var(--panel), var(--asphalt-2))';
-      truckImg.style.display = 'none';
+      truckVideo.style.display = 'none';
     }, { once: true });
+
+    // Ba'zi brauzerlar (ayniqsa mobil) autoplay'ni bloklashi mumkin —
+    // shu holatda foydalanuvchi bosganda video ishga tushadi.
+    const tryPlay = () => truckVideo.play().catch(() => {});
+    tryPlay();
+    document.addEventListener('click', tryPlay, { once: true });
+
+    // Harakatga sezgir foydalanuvchilar uchun videoni to'xtatib, statik
+    // poster rasmda qoldirish
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reducedMotion.matches) {
+      truckVideo.pause();
+      truckVideo.removeAttribute('loop');
+    }
   }
 
   // Telegram tugmasini bosganda kichik "pulse" effekt
