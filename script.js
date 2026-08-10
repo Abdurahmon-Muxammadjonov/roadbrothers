@@ -15,11 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
 
     // Videoni boshidan emas, o'rtasidan qisqa (~6s) segment sifatida
-    // ijro qilish — asl faylni qayta kodlashsiz "qisqaroq" ko'rinish
+    // ijro qilish — asl faylni qayta kodlashsiz "qisqaroq" ko'rinish.
+    // Muhim: sakrashni (currentTime) sahifa kirishi bilan DARHOL emas,
+    // balki "canplaythrough" (yetarlicha buferlangan) hodisasida qilamiz —
+    // aks holda hali hech narsa yuklanmagan joyga sakrab, video bir zum
+    // "qotib" ko'rinardi. Shu vaqtgacha video oddiy 0-dan silliq davom etadi.
     const CLIP_START_RATIO = 0.35; // umumiy uzunlikning ~1/3 qismidan
     const CLIP_LENGTH = 6; // soniya
 
-    truckVideo.addEventListener('loadedmetadata', () => {
+    truckVideo.addEventListener('canplaythrough', () => {
       const dur = truckVideo.duration;
       if (isFinite(dur) && dur > CLIP_LENGTH) {
         const start = Math.min(dur * CLIP_START_RATIO, dur - CLIP_LENGTH);
@@ -27,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         truckVideo.dataset.clipEnd = start + CLIP_LENGTH;
         truckVideo.currentTime = start;
       }
-    });
+    }, { once: true });
 
     truckVideo.addEventListener('timeupdate', () => {
       const end = parseFloat(truckVideo.dataset.clipEnd);
