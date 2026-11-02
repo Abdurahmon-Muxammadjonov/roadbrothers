@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ctaBtn.classList.remove('pulse');
       void ctaBtn.offsetWidth; // reflow — animatsiyani qayta ishga tushirish uchun
       ctaBtn.classList.add('pulse');
+
+      // Meta Pixel'ga "Lead" hodisasini yuborish
+      if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
     });
   }
 
